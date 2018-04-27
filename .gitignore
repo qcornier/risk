@@ -1,0 +1,35 @@
+# Exclude target & classes :
+target
+*/target
+*/*/target
+*.class
+*.jar
+*.gz
+
+# Exclude *.release.properties files
+release.properties
+*/pom.xml.releaseBackup
+*/*/pom.xml.releaseBackup
+
+# Exclude Eclipse config files
+.settings
+.classpath
+.project
+*.db
+
+# Exclude IDEA config files
+.idea
+*.iml
+*.metadata
+
+# Exclude extensions
+swagger-ui
+overlays
+.tern-project
+
+# Exclude archive
+*.log
+log.*
+git.properties
+dependency-reduced-pom.xml
+
