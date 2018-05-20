@@ -1,7 +1,8 @@
+import processing.core.PApplet;
+
 public class Application {
 
 	public static void main(String[]args){
-		System.out.println("hello world");
-		System.out.println("testpblm1");
+		PApplet.main(new String[] { Map.class.getName() });
 	}
 }
