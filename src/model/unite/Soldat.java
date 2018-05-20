@@ -1,4 +1,4 @@
-package unite;
+package model.unite;
 
 import java.util.Random;
 

@@ -1,7 +1,8 @@
 package model;
 
 import java.util.List;
-import unite.Unite;
+
+import model.unite.Unite;
 
 public class Territoire {
 	

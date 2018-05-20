@@ -1,4 +1,4 @@
-package unite;
+package model.unite;
 
 public abstract class Unite {
 

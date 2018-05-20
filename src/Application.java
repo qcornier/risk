@@ -1,3 +1,4 @@
+
 import java.util.List;
 
 import model.Joueur;
@@ -8,8 +9,6 @@ public class Application {
 	private int nbJoueurs;
 	private List<Joueur> joueurs;
 
-	
-	// MAIN
 	public void main(String[]args){
 		
 		boolean jeuFini = false;

@@ -2,10 +2,10 @@ package model;
 
 import java.util.List;
 
-import unite.Canon;
-import unite.Cavalier;
-import unite.Soldat;
-import unite.Unite;
+import model.unite.Canon;
+import model.unite.Cavalier;
+import model.unite.Soldat;
+import model.unite.Unite;
 
 public class Tour {
 	
