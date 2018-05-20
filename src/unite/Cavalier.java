@@ -12,11 +12,13 @@ public class Cavalier extends Unite {
 		this.prioriteAttaque = UniteUtil.PRIORITE_ATT_CAVALIER;
 		this.prioriteDefense = UniteUtil.PRIORITE_DEF_CAVALIER;
 	}
+	
+	
 
 	@Override
 	public int getPuissance() {
 		Random r = new Random();
 		return UniteUtil.PUISSANCE_MIN_CAVALIER + r.nextInt(UniteUtil.PUISSANCE_MAX_CAVALIER - UniteUtil.PUISSANCE_MIN_CAVALIER);
 	}
-
+	
 }
