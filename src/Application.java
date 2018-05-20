@@ -8,8 +8,14 @@ public class Application {
 	
 	private int nbJoueurs;
 	private List<Joueur> joueurs;
+	
+	public static void main(String[] args){
+		Application app = new Application();
+		app.jeu();
+	}
+	
 
-	public void main(String[]args){
+	private void jeu(){
 		
 		boolean jeuFini = false;
 		initJeu();
