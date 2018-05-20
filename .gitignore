@@ -33,3 +33,4 @@ log.*
 git.properties
 dependency-reduced-pom.xml
 
+/bin/
