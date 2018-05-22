@@ -1,7 +1,10 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import model.unite.ClasseUniteParDefPriorite;
 import model.unite.Unite;
 
 public class Territoire {
@@ -35,5 +38,21 @@ public class Territoire {
 	}
 
 	private List<Unite> unites;
+
+	public List<Unite> getFightUnites() {
+		List<Unite> fightUnites = new ArrayList<Unite>();
+		// Si 1 seule unitée alors la return 
+		if (this.getUnites().size() == 1){
+			fightUnites.add(this.getUnites().get(0));
+			return fightUnites;
+		}
+		// sinon demander si le def veut def avec 1 ou 2 unité puis selectionne automatiquement les unité avec la + haute priorité de defense 
+		int nbDef = 2; //input
+		unites.sort(new ClasseUniteParDefPriorite());
+		for (int i = 0 ; i < nbDef ; i++){
+			fightUnites.add(unites.get(i)); // TODO check if index 0 is higher def priority or lesser
+		}	
+		return fightUnites;
+	}
 
 }

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import model.unite.Canon;
@@ -44,6 +46,7 @@ public class Tour {
 				}
 			}
 			
+			
 			// le joueur pose son unité
 			boolean finPoseUnite = false;
 			String nomTerritoireChoisi = "";
@@ -71,26 +74,51 @@ public class Tour {
 		while(!finDeplacements){
 			
 			// l'utilisateur clique sur le territoire de depart
-			Territoire territoire = getTerritoireParNom("territoireRecupAuClic");//TODO RECUP LES CLICS
+			Territoire territoireDepart = getTerritoireParNom("territoireRecupAuClic");//TODO RECUP LES CLICS
 			
-			List<Unite> unitesDeplacables = territoire.getUnites();
-			// TODO CHOISIR LES UNITES QUON VEUT
+			// l'utilisateur choisit un territoire  de destination adjascent;
+			String nomTerritoireDestination = ""; //TODO RECUP LA STRING CORRESPONDANT AU CLIC
+			Territoire territoireDestination = getTerritoireParNom(nomTerritoireDestination);
 			
-			// l'utilisateur choisit un territoire adjascent;
-			String nomTerritoireChoisi = ""; //TODO RECUP LA STRING CORRESPONDANT AU CLIC
-			Territoire territoireChoisi = getTerritoireParNom(nomTerritoireChoisi);
-			
-			// si territoire appartient au joueur
-			if(territoireChoisi.getOccupant() == joueur.getId()){
-				// ON BOUGE LES UNITES
+		
+			// si territoire appartient au joueur, il s'agit d'un déplacement, sinon une bataille
+			if(territoireDestination.getOccupant() == joueur.getId()){
+				deplacement(territoireDepart, territoireDestination); // DEPLACEMENT
 			} else {
-				// BATAILLE
+				bataille(territoireDepart, territoireDestination );// BATAILLE
 			}
 			
 		}
 		
 	}
 	
+	private void deplacement(Territoire depart, Territoire destination) {
+		// TODO Auto-generated method stub		
+	}
+
+	private void bataille(Territoire depart , Territoire destination) {
+		// CHOIX NB UNITE
+		boolean finChoixnb = false;		
+		while (!finChoixnb){ // TODO choisir avec quelles unitées attaquer
+			int nbTerritoire =  ; 
+			if(nbTerritoire <= 3 && depart.getUnites().size() - nbTerritoire >= 1){
+				finChoixnb = ! finChoixnb;
+			}
+		}
+		
+		// FIGHT !!
+		List<Unite> fightDefUnites = destination.getFightUnites();
+		int[] puissancesDef = new int[fightDefUnites.size()];
+		for (int i = 0 ; i < fightDefUnites.size(); i++){
+			puissancesDef[i] = fightDefUnites.get(i).getPuissance();
+		}
+		Arrays.sort(puissancesDef);
+  		
+			
+		
+		
+	}
+
 	public Territoire getTerritoireParNom(String nom){
 		Territoire territoire = null;
 		for(Territoire t : territoires){
