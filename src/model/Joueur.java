@@ -11,9 +11,14 @@ public class Joueur {
 	private List<Territoire> territoires;
 	
 	private List<Region> regionsControlees;
-	
-	
-	
+
+	public Joueur(int id, Mission mission, List<Territoire> territoires, List<Region> regionsControlees) {
+		this.id = id;
+		this.mission = mission;
+		this.territoires = territoires;
+		this.regionsControlees = regionsControlees;
+	}
+
 	public int getId() {
 		return id;
 	}

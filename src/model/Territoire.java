@@ -12,7 +12,15 @@ public class Territoire {
 	private String nom;
 	
 	private int occupant;
-	
+
+	private List<Unite> unites;
+
+	public Territoire(String nom, List<Unite> unites) {
+		this.nom = nom;
+		this.unites = unites;
+		this.occupant = -1; // on initialise a -1, les territoires sont répartis entre les joueurs lors de initJeu
+	}
+
 	public int getOccupant() {
 		return occupant;
 	}
@@ -37,16 +45,16 @@ public class Territoire {
 		this.unites = unites;
 	}
 
-	private List<Unite> unites;
+
 
 	public List<Unite> getFightUnites() {
 		List<Unite> fightUnites = new ArrayList<Unite>();
-		// Si 1 seule unitée alors la return 
+		// Si 1 seule unitï¿½e alors la return 
 		if (this.getUnites().size() == 1){
 			fightUnites.add(this.getUnites().get(0));
 			return fightUnites;
 		}
-		// sinon demander si le def veut def avec 1 ou 2 unité puis selectionne automatiquement les unité avec la + haute priorité de defense 
+		// sinon demander si le def veut def avec 1 ou 2 unitï¿½ puis selectionne automatiquement les unitï¿½ avec la + haute prioritï¿½ de defense 
 		int nbDef = 2; //input
 		unites.sort(new ClasseUniteParDefPriorite());
 		for (int i = 0 ; i < nbDef ; i++){

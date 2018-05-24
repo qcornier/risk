@@ -25,10 +25,10 @@ public class Tour {
 		Unite uniteChoisie = null;
 		int nbUnitesDisponibles =  joueur.calculerNbRenfortDisponibleTour();
 		
-		// tant qu'il n'a pas tout posé
+		// tant qu'il n'a pas tout posï¿½
 		while(nbUnitesDisponibles < 0) {
 			
-			// le joueur choisit une unité a poser 
+			// le joueur choisit une unitï¿½ a poser 
 			while(!finChoixUnite){
 				String choixUnite = "";
 				if(choixUnite == "cavalier"){
@@ -39,7 +39,7 @@ public class Tour {
 					uniteChoisie = new Soldat();
 				}
 				if(uniteChoisie.getCout() > nbUnitesDisponibles){
-					System.out.println("Vous n'avez pas assez d'unités disponibles.");
+					System.out.println("Vous n'avez pas assez d'unitï¿½s disponibles.");
 					
 				} else {
 					finChoixUnite = true;		
@@ -47,7 +47,7 @@ public class Tour {
 			}
 			
 			
-			// le joueur pose son unité
+			// le joueur pose son unitï¿½
 			boolean finPoseUnite = false;
 			String nomTerritoireChoisi = "";
 			
@@ -60,7 +60,7 @@ public class Tour {
 						territoireChoisi.getUnites().add(uniteChoisie);
 						nbUnitesDisponibles = nbUnitesDisponibles - uniteChoisie.getCout();
 					} else {
-						System.out.println("Vous ne pouvez pas poser d'unité sur ce territoire");
+						System.out.println("Vous ne pouvez pas poser d'unitï¿½ sur ce territoire");
 					}
 				}
 			} 
@@ -81,7 +81,7 @@ public class Tour {
 			Territoire territoireDestination = getTerritoireParNom(nomTerritoireDestination);
 			
 		
-			// si territoire appartient au joueur, il s'agit d'un déplacement, sinon une bataille
+			// si territoire appartient au joueur, il s'agit d'un dï¿½placement, sinon une bataille
 			if(territoireDestination.getOccupant() == joueur.getId()){
 				deplacement(territoireDepart, territoireDestination); // DEPLACEMENT
 			} else {
@@ -99,8 +99,8 @@ public class Tour {
 	private void bataille(Territoire depart , Territoire destination) {
 		// CHOIX NB UNITE
 		boolean finChoixnb = false;		
-		while (!finChoixnb){ // TODO choisir avec quelles unitées attaquer
-			int nbTerritoire =  ; 
+		while (!finChoixnb){ // TODO choisir avec quelles unitï¿½es attaquer
+			int nbTerritoire =0 ;
 			if(nbTerritoire <= 3 && depart.getUnites().size() - nbTerritoire >= 1){
 				finChoixnb = ! finChoixnb;
 			}
