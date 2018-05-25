@@ -1,6 +1,9 @@
-package model;
+package util;
 
 import java.util.List;
+
+import model.Joueur;
+import model.Territoire;
 
 public class JeuUtil {
 	

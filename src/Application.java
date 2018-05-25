@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import model.JeuUtil;
 import model.Joueur;
 import model.Mission;
 import model.Region;
@@ -11,6 +10,7 @@ import model.Territoire;
 import model.Tour;
 import model.unite.Soldat;
 import model.unite.Unite;
+import util.JeuUtil;
 
 public class Application {
 

@@ -7,6 +7,7 @@ import model.unite.Canon;
 import model.unite.Cavalier;
 import model.unite.Soldat;
 import model.unite.Unite;
+import util.JeuUtil;
 
 public class Tour {
 	
