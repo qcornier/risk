@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import model.unite.ClasseUniteParDefPriorite;
@@ -11,14 +10,14 @@ public class Territoire {
 	
 	private String nom;
 	
-	private int occupant;
+	private int occupant; // idJOueur
 
 	private List<Unite> unites;
 
 	public Territoire(String nom, List<Unite> unites) {
 		this.nom = nom;
 		this.unites = unites;
-		this.occupant = -1; // on initialise a -1, les territoires sont répartis entre les joueurs lors de initJeu
+		this.occupant = -1; // on initialise a -1, les territoires sont rï¿½partis entre les joueurs lors de initJeu
 	}
 
 	public int getOccupant() {

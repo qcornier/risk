@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,10 +24,10 @@ public class Tour {
 		Unite uniteChoisie = null;
 		int nbUnitesDisponibles =  joueur.calculerNbRenfortDisponibleTour();
 		
-		// tant qu'il n'a pas tout pos�
+		// tant qu'il n'a pas tout pose
 		while(nbUnitesDisponibles < 0) {
 			
-			// le joueur choisit une unit� a poser 
+			// le joueur choisit une unite a poser 
 			while(!finChoixUnite){
 				String choixUnite = "";
 				if(choixUnite == "cavalier"){
@@ -39,7 +38,7 @@ public class Tour {
 					uniteChoisie = new Soldat();
 				}
 				if(uniteChoisie.getCout() > nbUnitesDisponibles){
-					System.out.println("Vous n'avez pas assez d'unit�s disponibles.");
+					System.out.println("Vous n'avez pas assez d'unites disponibles.");
 					
 				} else {
 					finChoixUnite = true;		
@@ -47,20 +46,20 @@ public class Tour {
 			}
 			
 			
-			// le joueur pose son unit�
+			// le joueur pose son unite
 			boolean finPoseUnite = false;
 			String nomTerritoireChoisi = "";
 			
 			while(!finPoseUnite){
 				
 				if(nomTerritoireChoisi != ""){
-					Territoire territoireChoisi = getTerritoireParNom(nomTerritoireChoisi);
+					Territoire territoireChoisi = JeuUtil.getTerritoireParNom(nomTerritoireChoisi, territoires);
 					
 					if(territoireChoisi.getOccupant() == joueur.getId()){
 						territoireChoisi.getUnites().add(uniteChoisie);
 						nbUnitesDisponibles = nbUnitesDisponibles - uniteChoisie.getCout();
 					} else {
-						System.out.println("Vous ne pouvez pas poser d'unit� sur ce territoire");
+						System.out.println("Vous ne pouvez pas poser d'unite sur ce territoire");
 					}
 				}
 			} 
@@ -74,11 +73,11 @@ public class Tour {
 		while(!finDeplacements){
 			
 			// l'utilisateur clique sur le territoire de depart
-			Territoire territoireDepart = getTerritoireParNom("territoireRecupAuClic");//TODO RECUP LES CLICS
+			Territoire territoireDepart = JeuUtil.getTerritoireParNom("territoireRecupAuClic", territoires);//TODO RECUP LES CLICS
 			
 			// l'utilisateur choisit un territoire  de destination adjascent;
 			String nomTerritoireDestination = ""; //TODO RECUP LA STRING CORRESPONDANT AU CLIC
-			Territoire territoireDestination = getTerritoireParNom(nomTerritoireDestination);
+			Territoire territoireDestination = JeuUtil.getTerritoireParNom(nomTerritoireDestination, territoires);
 			
 		
 			// si territoire appartient au joueur, il s'agit d'un d�placement, sinon une bataille
@@ -117,16 +116,6 @@ public class Tour {
 			
 		
 		
-	}
-
-	public Territoire getTerritoireParNom(String nom){
-		Territoire territoire = null;
-		for(Territoire t : territoires){
-			if(t.getNom().equals(nom)){
-				territoire = t;
-			}
-		}
-		return territoire;
 	}
 	
 	

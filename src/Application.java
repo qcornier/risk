@@ -3,11 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import model.JeuUtil;
 import model.Joueur;
 import model.Mission;
 import model.Region;
 import model.Territoire;
 import model.Tour;
+import model.unite.Soldat;
+import model.unite.Unite;
 
 public class Application {
 
@@ -27,14 +30,14 @@ public class Application {
 
 		Joueur joueur = joueurs.get(0);
 
-		/*while(!jeuFini){
+		while(!jeuFini){
 			Tour tour = new Tour(joueur);
 
 			tour.recevoirRenforts();
-			tour.deplacerUnites();
+			//tour.deplacerUnites();
 
 			joueur = getJoueurSuivant(joueur.getId());
-		}*/
+		}
 	}
 
 	/**
@@ -54,6 +57,7 @@ public class Application {
 
 		joueurs.add(joueur0);
 		joueurs.add(joueur1);
+		joueurs.add(joueur2);
 
 		Territoire t1 = new Territoire("france", new ArrayList<>());
 		Territoire t2 = new Territoire("espagne", new ArrayList<>());
@@ -80,11 +84,11 @@ public class Application {
 		
 		// ----------------------------------------------------------------------------------------
 
-		// on répartit tous les territoires entre les joueurs
+		// on repartit tous les territoires entre les joueurs
 		repartirTerritoires();
 		
 		
-		int nbUnites;
+		int nbUnites=0;
 
 		if(joueurs.size() == 2){
 			nbUnites = 40;
@@ -98,8 +102,26 @@ public class Application {
 			nbUnites = 20;
 		}
 		
+		// POSER LE NB D'UNITE (que des soldats au premier tour)
+		for(Joueur joueur : joueurs) {
+			int nbUnitesJoueur = nbUnites;
+			
+			
+			while(nbUnitesJoueur > 0) {
+				// clic sur unite 
+				Unite unite = new Soldat();
+				// clic sur territoire
+				String nomTerritoireSelect = "";
+				Territoire territoireSelect = JeuUtil.getTerritoireParNom(nomTerritoireSelect, listTerritoires);
+				territoireSelect.getUnites().add(unite);
+				nbUnitesJoueur--;
+			}
+			
+			
+		}
+		
 
-		// TODO POSER LE NB D'UNITE
+		
 	}
 
 	/**
@@ -111,65 +133,44 @@ public class Application {
 		int cpt = 0;
 		int idJoueur=0;
 		boolean termine = false;
-		// répartition "normale"
+		// repartition "normale"
 		while(!termine) {
 			Territoire territoireCourant = listTerritoires.get(cpt);
 			
-			if(getJoueurById(idJoueur).getTerritoires().size() >= nbTerritoiresParJoueur) {
+			if(JeuUtil.getJoueurById(idJoueur, joueurs).getTerritoires().size() >= nbTerritoiresParJoueur) {
 				idJoueur++;
 			}
 			territoireCourant.setOccupant(idJoueur);
-			getJoueurById(idJoueur).getTerritoires().add(territoireCourant);
+			JeuUtil.getJoueurById(idJoueur, joueurs).getTerritoires().add(territoireCourant);
 			cpt++;
 			if(cpt == (listTerritoires.size()-nbTerritoiresNonAttribues)) {
 				termine=true;
 			}
 		}
-		// si il reste des territoires on les affectent aléatoirement
+		// si il reste des territoires on les affectent alï¿½atoirement
 		if(nbTerritoiresNonAttribues != 0) {
 			for(Territoire t : listTerritoires) {
 				if(t.getOccupant() == -1) {
 					Random r = new Random();
 					int idJoueurAleatoire = 0 + r.nextInt((joueurs.size()-1));
 					t.setOccupant(idJoueurAleatoire);
-					getJoueurById(idJoueurAleatoire).getTerritoires().add(t);
+					JeuUtil.getJoueurById(idJoueurAleatoire, joueurs).getTerritoires().add(t);
 				}
 			}			
 		}
 
 	}
 	
-	
-
 	/**
-	 * Recuperer un objet Joueur de la liste des joueurs a partir de son id.
-	 */
-	private Joueur getJoueurById(int id){
-		Joueur joueur = null;
-		for(Joueur j : joueurs){
-			if(j.getId() == id){
-				joueur = j;
-			}
-		}
-		return joueur;
-	}
-	
-	/**
-	 * récupere le joueur suivant dans la liste (les id des joueurs doivent etre (0,1,2,...)
+	 * recupere le joueur suivant dans la liste (les id des joueurs doivent etre (0,1,2,...)
 	 */
 	private Joueur getJoueurSuivant(int idJoueurActuel){ 
 		int idJoueurSuivant=0;
-		if(idJoueurActuel < joueurs.size()){
+		if(idJoueurActuel < joueurs.size()-1){
 			idJoueurSuivant = idJoueurActuel +1;
 		} else {
-			idJoueurSuivant = 1;
+			idJoueurSuivant = 0;
 		}
-		Joueur suivant = null;
-		for(Joueur joueur : joueurs){
-			if(joueur.getId() == idJoueurSuivant){
-				suivant = joueur;
-			}
-		}
-		return suivant;
+		return JeuUtil.getJoueurById(idJoueurSuivant, joueurs);
 	}
 }
