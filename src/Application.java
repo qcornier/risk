@@ -82,12 +82,6 @@ public class Application {
 		listTerritoires.add(t9);
 		listTerritoires.add(t10);
 		
-		// ----------------------------------------------------------------------------------------
-
-		// on repartit tous les territoires entre les joueurs
-		repartirTerritoires();
-		
-		
 		int nbUnites=0;
 
 		if(joueurs.size() == 2){
@@ -102,23 +96,14 @@ public class Application {
 			nbUnites = 20;
 		}
 		
-		// POSER LE NB D'UNITE (que des soldats au premier tour)
-		for(Joueur joueur : joueurs) {
-			int nbUnitesJoueur = nbUnites;
-			
-			
-			while(nbUnitesJoueur > 0) {
-				// clic sur unite 
-				Unite unite = new Soldat();
-				// clic sur territoire
-				String nomTerritoireSelect = "";
-				Territoire territoireSelect = JeuUtil.getTerritoireParNom(nomTerritoireSelect, listTerritoires);
-				territoireSelect.getUnites().add(unite);
-				nbUnitesJoueur--;
-			}
-			
-			
-		}
+		// ----------------------------------------------------------------------------------------
+
+		// on repartit tous les territoires entre les joueurs
+		repartirTerritoires();
+		
+		// POSER LE NB D'UNITE
+		repartirUnitesParTerritoire(nbUnites);
+
 		
 
 		
@@ -159,6 +144,32 @@ public class Application {
 			}			
 		}
 
+	}
+	
+	/** 
+	 * repartition des unites par territoire assigné a un joueur lors de l'initialisation du jeu
+	 */
+	private void repartirUnitesParTerritoire(int nbUnites) {
+		for(Joueur joueur : joueurs) {
+			int nbUnitesJoueur = nbUnites;
+			
+			// par défault, on pose un soldat sur chaque territoire du joueur.
+			// il renforcera ensuite les territoires qu'il veut.
+			for(Territoire territoire : joueur.getTerritoires()) {
+				territoire.getUnites().add(new Soldat());
+				nbUnitesJoueur--;
+			}
+			
+			while(nbUnitesJoueur > 0) {
+				// clic sur territoire
+				String nomTerritoireSelect = "";
+				Territoire territoireSelect = JeuUtil.getTerritoireParNom(nomTerritoireSelect, listTerritoires);
+				territoireSelect.getUnites().add(new Soldat());
+				nbUnitesJoueur--;
+			}
+			
+			
+		}
 	}
 	
 	/**
