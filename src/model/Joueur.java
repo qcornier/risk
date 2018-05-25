@@ -11,6 +11,9 @@ public class Joueur {
 	private List<Territoire> territoires;
 	
 	private List<Region> regionsControlees;
+	
+	private int nbUnitesAPoserInitJeu;
+
 
 	public Joueur(int id, Mission mission, List<Territoire> territoires, List<Region> regionsControlees) {
 		this.id = id;
@@ -77,6 +80,14 @@ public class Joueur {
 			nbUniteRenfortDisponibles = nbUniteRenfortDisponibles + 2;
 		}
 		return nbUniteRenfortDisponibles;
+	}
+	
+	public int getNbUnitesAPoserInitJeu() {
+		return nbUnitesAPoserInitJeu;
+	}
+
+	public void setNbUnitesAPoserInitJeu(int nbUnitesAPoserInitJeu) {
+		this.nbUnitesAPoserInitJeu = nbUnitesAPoserInitJeu;
 	}
 	
 
