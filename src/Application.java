@@ -159,16 +159,6 @@ public class Application {
 			// il renforcera ensuite les territoires qu'il veut.
 			for(Territoire territoire : joueur.getTerritoires()) {
 				territoire.getUnites().add(new Soldat());
-				
-				
-				// TODO IMPORTANT ENLEVER CETTE LIGNE
-				territoire.getUnites().add(new Canon());
-				if( territoire.getNom() == "france" ){
-					territoire.getUnites().add(new Cavalier());
-				}
-				// TODO--------------------------------
-				
-				
 				nbUnitesJoueur--;
 			}
 			
