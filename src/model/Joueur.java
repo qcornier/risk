@@ -11,6 +11,18 @@ public class Joueur {
 	private List<Territoire> territoires;
 	
 	private List<Region> regionsControlees;
+	
+	// lorsqu'un joueur conquert un territoire il a 50% de chance d'avoir un territoire supplémentaire au prochain tour
+	// cet attribut est donc un compteur de terrtoires conquient au tour précédent à utiliser lors de la distribution des renfors au début du tour 
+	private int renfortSupp;
+
+	public int getRenfortSupp() {
+		return renfortSupp;
+	}
+
+	public void setRenfortSupp(int renfortSupp) {
+		this.renfortSupp = renfortSupp;
+	}
 
 	public Joueur(int id, Mission mission, List<Territoire> territoires, List<Region> regionsControlees) {
 		this.id = id;

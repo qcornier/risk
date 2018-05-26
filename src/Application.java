@@ -8,6 +8,8 @@ import model.Mission;
 import model.Region;
 import model.Territoire;
 import model.Tour;
+import model.unite.Canon;
+import model.unite.Cavalier;
 import model.unite.Soldat;
 import model.unite.Unite;
 import util.JeuUtil;
@@ -31,10 +33,10 @@ public class Application {
 		Joueur joueur = joueurs.get(0);
 
 		while(!jeuFini){
-			Tour tour = new Tour(joueur);
+			Tour tour = new Tour(joueur, listTerritoires);
 
-			tour.recevoirRenforts();
-			//tour.deplacerUnites();
+			//tour.recevoirRenforts();
+			tour.deplacerUnites();
 
 			joueur = getJoueurSuivant(joueur.getId());
 		}
@@ -125,7 +127,7 @@ public class Application {
 			if(JeuUtil.getJoueurById(idJoueur, joueurs).getTerritoires().size() >= nbTerritoiresParJoueur) {
 				idJoueur++;
 			}
-			territoireCourant.setOccupant(idJoueur);
+			territoireCourant.setOccupant(JeuUtil.getJoueurById(idJoueur, joueurs));
 			JeuUtil.getJoueurById(idJoueur, joueurs).getTerritoires().add(territoireCourant);
 			cpt++;
 			if(cpt == (listTerritoires.size()-nbTerritoiresNonAttribues)) {
@@ -135,10 +137,10 @@ public class Application {
 		// si il reste des territoires on les affectent alï¿½atoirement
 		if(nbTerritoiresNonAttribues != 0) {
 			for(Territoire t : listTerritoires) {
-				if(t.getOccupant() == -1) {
+				if(t.getOccupant() == null) {
 					Random r = new Random();
 					int idJoueurAleatoire = 0 + r.nextInt((joueurs.size()-1));
-					t.setOccupant(idJoueurAleatoire);
+					t.setOccupant(JeuUtil.getJoueurById(idJoueurAleatoire, joueurs));
 					JeuUtil.getJoueurById(idJoueurAleatoire, joueurs).getTerritoires().add(t);
 				}
 			}			
@@ -153,20 +155,30 @@ public class Application {
 		for(Joueur joueur : joueurs) {
 			int nbUnitesJoueur = nbUnites;
 			
-			// par dÃ©fault, on pose un soldat sur chaque territoire du joueur.
+			// par défault, on pose un soldat sur chaque territoire du joueur.
 			// il renforcera ensuite les territoires qu'il veut.
 			for(Territoire territoire : joueur.getTerritoires()) {
 				territoire.getUnites().add(new Soldat());
+				
+				
+				// TODO IMPORTANT ENLEVER CETTE LIGNE
+				territoire.getUnites().add(new Canon());
+				if( territoire.getNom() == "france" ){
+					territoire.getUnites().add(new Cavalier());
+				}
+				// TODO--------------------------------
+				
+				
 				nbUnitesJoueur--;
 			}
 			
-			while(nbUnitesJoueur > 0) {
+				/*while(nbUnitesJoueur > 0) {
 				// clic sur territoire
 				String nomTerritoireSelect = "";
 				Territoire territoireSelect = JeuUtil.getTerritoireParNom(nomTerritoireSelect, listTerritoires);
 				territoireSelect.getUnites().add(new Soldat());
 				nbUnitesJoueur--;
-			}
+			}*/
 			
 			
 		}

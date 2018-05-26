@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.unite.ClasseUniteParAtqPriorite;
 import model.unite.ClasseUniteParDefPriorite;
 import model.unite.Unite;
 
@@ -10,21 +11,21 @@ public class Territoire {
 	
 	private String nom;
 	
-	private int occupant; // idJOueur
+	private Joueur occupant; // idJOueur
 
 	private List<Unite> unites;
 
 	public Territoire(String nom, List<Unite> unites) {
 		this.nom = nom;
 		this.unites = unites;
-		this.occupant = -1; // on initialise a -1, les territoires sont r�partis entre les joueurs lors de initJeu
+		this.occupant = null; // on initialise a -1, les territoires sont r�partis entre les joueurs lors de initJeu
 	}
 
-	public int getOccupant() {
+	public Joueur getOccupant() {
 		return occupant;
 	}
 
-	public void setOccupant(int occupant) {
+	public void setOccupant(Joueur occupant) {
 		this.occupant = occupant;
 	}
 
@@ -46,7 +47,7 @@ public class Territoire {
 
 
 
-	public List<Unite> getFightUnites() {
+	public List<Unite> getFightDefUnites() {
 		List<Unite> fightUnites = new ArrayList<Unite>();
 		// Si 1 seule unit�e alors la return 
 		if (this.getUnites().size() == 1){
@@ -57,6 +58,22 @@ public class Territoire {
 		int nbDef = 2; //input
 		unites.sort(new ClasseUniteParDefPriorite());
 		for (int i = 0 ; i < nbDef ; i++){
+			fightUnites.add(unites.get(i)); // TODO check if index 0 is higher def priority or lesser
+		}	
+		return fightUnites;
+	}
+	
+	public List<Unite> getFightAtqUnites() {
+		List<Unite> fightUnites = new ArrayList<Unite>();
+		// Si 1 seule unit�e alors la return 
+		if (this.getUnites().size() == 2){
+			fightUnites.add(this.getUnites().get(0));
+			return fightUnites;
+		}
+		// sinon demander si le def veut def avec 1 ou 2 unit� puis selectionne automatiquement les unit� avec la + haute priorit� de defense 
+		int nbAtq = 1; // TODO: input
+		unites.sort(new ClasseUniteParAtqPriorite());
+		for (int i = 0 ; i < nbAtq ; i++){
 			fightUnites.add(unites.get(i)); // TODO check if index 0 is higher def priority or lesser
 		}	
 		return fightUnites;
