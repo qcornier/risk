@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Random;
 
 public class Joueur {
 	
@@ -17,19 +18,17 @@ public class Joueur {
 	private int renfortSupp;
 	
 	private int nbUnitesAPoserInitJeu;
-	
-	private int renfortsTerritoiresCaptures;
-	
+		
 	
 	public Joueur(int id, Mission mission, List<Territoire> territoires, List<Region> regionsControlees) {
 		this.id = id;
 		this.mission = mission;
 		this.territoires = territoires;
 		this.regionsControlees = regionsControlees;
+		this.renfortSupp = 0;
 	}
 	
 	
-
 	public int getRenfortSupp() {
 		return renfortSupp;
 	}
@@ -44,12 +43,6 @@ public class Joueur {
 	}
 	public void setRegionsControlees(List<Region> regionsControlees) {
 		this.regionsControlees = regionsControlees;
-	}
-	public int getRenfortsTerritoiresCaptures() {
-		return renfortsTerritoiresCaptures;
-	}
-	public void setRenfortsTerritoiresCaptures(int renfortsTerritoiresCaptures) {
-		this.renfortsTerritoiresCaptures = renfortsTerritoiresCaptures;
 	}
 	public Mission getMission() {
 		return mission;
@@ -82,13 +75,20 @@ public class Joueur {
 			nbUniteRegion = nbUniteRegion + (int) Math.floor(region.getTerritoires().size() /2);
 		}
 		
-		int nbRenfortTerritoiresCaptures = getRenfortsTerritoiresCaptures();
+		int nbRenfortTerritoiresCaptures = 0;
+		
+		for(int i = 0; i < getRenfortSupp(); i++){
+			if ( Math.random() < 0.5){
+				nbRenfortTerritoiresCaptures++;
+			}
+		}
 				
 		int nbUniteRenfortDisponibles = nbUniteRegion + nbUniteTerritoires + nbRenfortTerritoiresCaptures;
 		
 		if(nbUniteRenfortDisponibles < 2 ){
 			nbUniteRenfortDisponibles = nbUniteRenfortDisponibles + 2;
 		}
+				
 		return nbUniteRenfortDisponibles;
 	}	
 
