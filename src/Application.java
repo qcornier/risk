@@ -97,6 +97,9 @@ public class Application {
 		} else if(joueurs.size() == 6){
 			nbUnites = 20;
 		}
+		for(Joueur joueur : joueurs) {
+			joueur.setNbUnitesAPoserInitJeu(nbUnites);
+		}
 		
 		// ----------------------------------------------------------------------------------------
 
@@ -152,6 +155,9 @@ public class Application {
 	 * repartition des unites par territoire assigné a un joueur lors de l'initialisation du jeu
 	 */
 	private void repartirUnitesParTerritoire(int nbUnites) {
+		
+		// par défault, on pose un soldat sur chaque territoire du joueur.
+		// il renforcera ensuite les territoires qu'il veut.
 		for(Joueur joueur : joueurs) {
 			int nbUnitesJoueur = nbUnites;
 			
@@ -159,18 +165,38 @@ public class Application {
 			// il renforcera ensuite les territoires qu'il veut.
 			for(Territoire territoire : joueur.getTerritoires()) {
 				territoire.getUnites().add(new Soldat());
-				nbUnitesJoueur--;
+				joueur.setNbUnitesAPoserInitJeu(joueur.getNbUnitesAPoserInitJeu()-1);
 			}
 			
-				/*while(nbUnitesJoueur > 0) {
+				while(nbUnitesJoueur > 0) {
 				// clic sur territoire
 				String nomTerritoireSelect = "";
 				Territoire territoireSelect = JeuUtil.getTerritoireParNom(nomTerritoireSelect, listTerritoires);
 				territoireSelect.getUnites().add(new Soldat());
 				nbUnitesJoueur--;
-			}*/
+			}
 			
-			
+		}
+
+		
+		// chacun leur tour, les joueurs posent les unités restantes.
+		Joueur joueur = JeuUtil.getJoueurById(0, joueurs);
+		boolean fini = false;
+		
+		while(!fini) {
+			if(joueur.getNbUnitesAPoserInitJeu() > 0) {
+				// clic sur territoire
+				String nomTerritoireSelect = "";
+				Territoire territoireSelect = JeuUtil.getTerritoireParNom(nomTerritoireSelect, listTerritoires);
+				// on vérifie que le territoire sélectionné appartient bien au joueur
+				if(joueur.getTerritoires().contains(territoireSelect)) {
+					territoireSelect.getUnites().add(new Soldat());
+					joueur.setNbUnitesAPoserInitJeu(joueur.getNbUnitesAPoserInitJeu()-1);
+				} else {
+					System.out.println("Vous ne pouvez pas poser d'unité sur ce territoire.");
+				}
+			}
+			joueur = getJoueurSuivant(joueur.getId());
 		}
 	}
 	

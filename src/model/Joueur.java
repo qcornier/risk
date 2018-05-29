@@ -15,60 +15,61 @@ public class Joueur {
 	// lorsqu'un joueur conquert un territoire il a 50% de chance d'avoir un territoire supplémentaire au prochain tour
 	// cet attribut est donc un compteur de terrtoires conquient au tour précédent à utiliser lors de la distribution des renfors au début du tour 
 	private int renfortSupp;
-
-	public int getRenfortSupp() {
-		return renfortSupp;
-	}
-
-	public void setRenfortSupp(int renfortSupp) {
-		this.renfortSupp = renfortSupp;
-	}
-
+	
+	private int nbUnitesAPoserInitJeu;
+	
+	private int renfortsTerritoiresCaptures;
+	
+	
 	public Joueur(int id, Mission mission, List<Territoire> territoires, List<Region> regionsControlees) {
 		this.id = id;
 		this.mission = mission;
 		this.territoires = territoires;
 		this.regionsControlees = regionsControlees;
 	}
+	
+	
 
+	public int getRenfortSupp() {
+		return renfortSupp;
+	}
+	public void setRenfortSupp(int renfortSupp) {
+		this.renfortSupp = renfortSupp;
+	}
 	public int getId() {
 		return id;
 	}
-
-
 	public List<Region> getRegionsControlees() {
 		return regionsControlees;
 	}
-
 	public void setRegionsControlees(List<Region> regionsControlees) {
 		this.regionsControlees = regionsControlees;
 	}
-
-	private int renfortsTerritoiresCaptures;
-
 	public int getRenfortsTerritoiresCaptures() {
 		return renfortsTerritoiresCaptures;
 	}
-
 	public void setRenfortsTerritoiresCaptures(int renfortsTerritoiresCaptures) {
 		this.renfortsTerritoiresCaptures = renfortsTerritoiresCaptures;
 	}
-
 	public Mission getMission() {
 		return mission;
 	}
-
 	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
-
 	public List<Territoire> getTerritoires() {
 		return territoires;
 	}
-
 	public void setTerritoires(List<Territoire> territoires) {
 		this.territoires = territoires;
 	}
+	public int getNbUnitesAPoserInitJeu() {
+		return nbUnitesAPoserInitJeu;
+	}
+	public void setNbUnitesAPoserInitJeu(int nbUnitesAPoserInitJeu) {
+		this.nbUnitesAPoserInitJeu = nbUnitesAPoserInitJeu;
+	}
+	
 	
 
 	
@@ -89,10 +90,6 @@ public class Joueur {
 			nbUniteRenfortDisponibles = nbUniteRenfortDisponibles + 2;
 		}
 		return nbUniteRenfortDisponibles;
-	}
-	
-
-
-	
+	}	
 
 }
