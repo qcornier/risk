@@ -26,6 +26,9 @@ public class Tour {
 		this.territoires = territoires;
 	}
 	
+	/**
+	 * Phase de reception de renforts (choix + positionnement)
+	 */
 	public void recevoirRenforts() {
 		
 		boolean finChoixUnite = false;
@@ -33,7 +36,7 @@ public class Tour {
 		int nbUnitesDisponibles =  joueur.calculerNbRenfortDisponibleTour();
 		
 		// tant qu'il n'a pas tout pose
-		while(nbUnitesDisponibles < 0) {
+		while(nbUnitesDisponibles > 0) {
 			
 			// le joueur choisit une unite a poser 
 			while(!finChoixUnite){
@@ -53,7 +56,6 @@ public class Tour {
 				}
 			}
 			
-			
 			// le joueur pose son unite
 			boolean finPoseUnite = false;
 			String nomTerritoireChoisi = "";
@@ -66,6 +68,7 @@ public class Tour {
 					if(territoireChoisi.getOccupant().getId() == joueur.getId()){
 						territoireChoisi.getUnites().add(uniteChoisie);
 						nbUnitesDisponibles = nbUnitesDisponibles - uniteChoisie.getCout();
+						finPoseUnite = true;
 					} else {
 						System.out.println("Vous ne pouvez pas poser d'unite sur ce territoire");
 					}
@@ -74,31 +77,28 @@ public class Tour {
 		} 	
 	}
 	
+	/**
+	 * Phase de dÃ©placement -> entraine soit un dÃ©placement "classique", soit une bataille
+	 */
 	public void deplacerUnites(){
-		
-		boolean finDeplacements = false;
-		
-		while(!finDeplacements){
 			
-			// l'utilisateur clique sur le territoire de depart
-			Territoire territoireDepart = JeuUtil.getTerritoireParNom("france", territoires);//TODO RECUP LES CLICS
-			
-			// l'utilisateur choisit un territoire  de destination adjascent;
-			String nomTerritoireDestination = "allemagne"; //TODO RECUP LA STRING CORRESPONDANT AU CLIC
-			Territoire territoireDestination = JeuUtil.getTerritoireParNom(nomTerritoireDestination, territoires);
-			
+		// l'utilisateur clique sur le territoire de depart
+		Territoire territoireDepart = JeuUtil.getTerritoireParNom("france", territoires);//TODO RECUP LES CLICS
 		
-			// si territoire appartient au joueur, il s'agit d'un deplacement, sinon une bataille
-			if(territoireDestination.getOccupant().getId() == joueur.getId()){
-				deplacement(territoireDepart, territoireDestination, territoireDepart.getUnites() ); // DEPLACEMENT TODO choix unites à bouger
+		// l'utilisateur choisit un territoire  de destination adjascent;
+		String nomTerritoireDestination = "allemagne"; //TODO RECUP LA STRING CORRESPONDANT AU CLIC
+		Territoire territoireDestination = JeuUtil.getTerritoireParNom(nomTerritoireDestination, territoires);
+		
+	
+		// si territoire appartient au joueur, il s'agit d'un deplacement, sinon une bataille
+		if(territoireDestination.getOccupant().getId() == joueur.getId()){
+			deplacement(territoireDepart, territoireDestination, territoireDepart.getUnites() ); // DEPLACEMENT TODO choix unites ï¿½ bouger
+		} else {
+			if (territoireDepart.getUnites().size() <= 1){
+				// TODO afficher erreur Pas assez d'unitee pour attaquer
 			} else {
-				if (territoireDepart.getUnites().size() <= 1){
-					// TODO afficher erreur Pas assez d'unitée pour attaquer
-				} else {
-					bataille(territoireDepart, territoireDestination );// BATAILLE
-				}
+				bataille(territoireDepart, territoireDestination );// BATAILLE
 			}
-			
 		}
 		
 	}
@@ -114,7 +114,7 @@ public class Tour {
 	private void bataille(Territoire depart , Territoire destination) {
 		// CHOIX NB UNITE
 		
-		// TODO choix des unité pour attaquer INPUT
+		// TODO choix des unite pour attaquer INPUT
 		
 		// FIGHT !!
 		List<UnitePuissance> unitePuissanceDef = unitesToUnitePuissance(destination);
@@ -132,15 +132,15 @@ public class Tour {
 		unitePuissanceDef.removeAll(Collections.singleton(null));
 		unitePuissanceAtq.removeAll(Collections.singleton(null));
 		
-		if (destination.getUnites().size() == 0){ // si plus d'unité sur le territoire qui défenseur
+		if (destination.getUnites().size() == 0){ // si plus d'unite sur le territoire qui defenseur
 			conquest(depart, destination, unitePuissanceAtq );
 		}
 		
 	}
 
 	private void conquest(Territoire depart, Territoire destination, List<UnitePuissance> unitePuissanceAtq) {
-		destination.setOccupant(depart.getOccupant()); // alors territoire appartient mtn à l'attaquant
-		// les troupes restantes de la batille sont déplacées sur le territoire conquit
+		destination.setOccupant(depart.getOccupant()); // alors territoire appartient mtn a l'attaquant
+		// les troupes restantes de la batille sont deplacees sur le territoire conquit
 		List<Unite> uniteToMove = new ArrayList<Unite>(3);
 		for (UnitePuissance u : unitePuissanceAtq){
 			uniteToMove.add(u.getUnite());

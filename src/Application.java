@@ -8,10 +8,7 @@ import model.Mission;
 import model.Region;
 import model.Territoire;
 import model.Tour;
-import model.unite.Canon;
-import model.unite.Cavalier;
 import model.unite.Soldat;
-import model.unite.Unite;
 import util.JeuUtil;
 
 public class Application {
@@ -35,8 +32,10 @@ public class Application {
 		while(!jeuFini){
 			Tour tour = new Tour(joueur, listTerritoires);
 
-			//tour.recevoirRenforts();
+			tour.recevoirRenforts();
 			tour.deplacerUnites();
+			
+			jeuFini = Mission.verifierSiMissionAccomplie(joueur, listTerritoires.size());
 
 			joueur = getJoueurSuivant(joueur.getId());
 		}
@@ -49,18 +48,6 @@ public class Application {
 		joueurs = new ArrayList<Joueur>(); 
 		listTerritoires = new ArrayList<Territoire>(); 
 		
-		// INIT LISTE JOUEURS
-		
-		
-		// ---------------------------- DONNEES DE TEST ----------------------------------------------------------
-		Joueur joueur0 = new Joueur(0, new Mission(), new ArrayList<Territoire>(), new ArrayList<Region>());
-		Joueur joueur1 = new Joueur(1, new Mission(), new ArrayList<Territoire>(), new ArrayList<Region>());
-		Joueur joueur2 = new Joueur(2, new Mission(), new ArrayList<Territoire>(), new ArrayList<Region>());
-
-		joueurs.add(joueur0);
-		joueurs.add(joueur1);
-		joueurs.add(joueur2);
-
 		Territoire t1 = new Territoire("france", new ArrayList<>());
 		Territoire t2 = new Territoire("espagne", new ArrayList<>());
 		Territoire t3 = new Territoire("italie", new ArrayList<>());
@@ -83,6 +70,25 @@ public class Application {
 		listTerritoires.add(t8);
 		listTerritoires.add(t9);
 		listTerritoires.add(t10);
+		
+		// INIT LISTE JOUEURS
+		Joueur joueur0 = new Joueur(0, new ArrayList<Territoire>(), new ArrayList<Region>());
+		Joueur joueur1 = new Joueur(1, new ArrayList<Territoire>(), new ArrayList<Region>());
+		Joueur joueur2 = new Joueur(2, new ArrayList<Territoire>(), new ArrayList<Region>());
+
+		joueurs.add(joueur0);
+		joueurs.add(joueur1);
+		joueurs.add(joueur2);
+		
+		// init missions
+		List<Mission> listMissions = Mission.initMissions(joueurs.size());
+		
+		for(Joueur joueur : joueurs) {
+			Random r = new Random();
+			int missionAlea = 0 + r.nextInt(listMissions.size());
+			joueur.setMission(listMissions.get(missionAlea));
+		}
+	
 		
 		int nbUnites=0;
 
