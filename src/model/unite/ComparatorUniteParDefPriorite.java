@@ -2,7 +2,7 @@ package model.unite;
 
 import java.util.Comparator;
 
-public class ClasseUniteParDefPriorite implements Comparator<Unite> {
+public class ComparatorUniteParDefPriorite implements Comparator<Unite> {
 	
 	@Override
 	public int compare(Unite u1, Unite u2) {

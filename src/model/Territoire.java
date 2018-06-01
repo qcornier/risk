@@ -2,9 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import model.unite.ClasseUniteParAtqPriorite;
-import model.unite.ClasseUniteParDefPriorite;
+import model.unite.ComparatorUniteParAtqPriorite;
+import model.unite.ComparatorUniteParDefPriorite;
 import model.unite.Unite;
 
 public class Territoire {
@@ -56,7 +55,7 @@ public class Territoire {
 		}
 		// sinon demander si le def veut def avec 1 ou 2 unit� puis selectionne automatiquement les unit� avec la + haute priorit� de defense 
 		int nbDef = 2; //input
-		unites.sort(new ClasseUniteParDefPriorite());
+		unites.sort(new ComparatorUniteParDefPriorite());
 		for (int i = 0 ; i < nbDef ; i++){
 			fightUnites.add(unites.get(i)); // TODO check if index 0 is higher def priority or lesser
 		}	
@@ -72,7 +71,7 @@ public class Territoire {
 		}
 		// sinon demander si le def veut def avec 1 ou 2 unit� puis selectionne automatiquement les unit� avec la + haute priorit� de defense 
 		int nbAtq = 1; // TODO: input
-		unites.sort(new ClasseUniteParAtqPriorite());
+		unites.sort(new ComparatorUniteParAtqPriorite());
 		for (int i = 0 ; i < nbAtq ; i++){
 			fightUnites.add(unites.get(i)); // TODO check if index 0 is higher def priority or lesser
 		}	
