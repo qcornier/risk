@@ -108,9 +108,6 @@ public class Application {
 		
 		// POSER LE NB D'UNITE
 		repartirUnitesParTerritoire(nbUnites);
-
-		
-
 		
 	}
 
@@ -137,7 +134,7 @@ public class Application {
 				termine=true;
 			}
 		}
-		// si il reste des territoires on les affectent al�atoirement
+		// si il reste des territoires on les affectent aleatoirement
 		if(nbTerritoiresNonAttribues != 0) {
 			for(Territoire t : listTerritoires) {
 				if(t.getOccupant() == null) {
@@ -158,28 +155,16 @@ public class Application {
 		
 		// par défault, on pose un soldat sur chaque territoire du joueur.
 		// il renforcera ensuite les territoires qu'il veut.
-		for(Joueur joueur : joueurs) {
-			int nbUnitesJoueur = nbUnites;
-			
-			// par d�fault, on pose un soldat sur chaque territoire du joueur.
+		for(Joueur joueur : joueurs) {			
+			// par default, on pose un soldat sur chaque territoire du joueur.
 			// il renforcera ensuite les territoires qu'il veut.
 			for(Territoire territoire : joueur.getTerritoires()) {
 				territoire.getUnites().add(new Soldat());
 				joueur.setNbUnitesAPoserInitJeu(joueur.getNbUnitesAPoserInitJeu()-1);
 			}
 			
-				while(nbUnitesJoueur > 0) {
-				// clic sur territoire
-				String nomTerritoireSelect = "";
-				Territoire territoireSelect = JeuUtil.getTerritoireParNom(nomTerritoireSelect, listTerritoires);
-				territoireSelect.getUnites().add(new Soldat());
-				nbUnitesJoueur--;
-			}
-			
-		}
-
-		
-		// chacun leur tour, les joueurs posent les unités restantes.
+		}		
+		// chacun leur tour, les joueurs posent les unites restantes.
 		Joueur joueur = JeuUtil.getJoueurById(0, joueurs);
 		boolean fini = false;
 		
@@ -197,6 +182,17 @@ public class Application {
 				}
 			}
 			joueur = getJoueurSuivant(joueur.getId());
+			
+			// verif condition d'arret
+			boolean unitesToutesPosees = true;
+			for(Joueur j : joueurs) {
+				if(j.getNbUnitesAPoserInitJeu() != 0) {
+					unitesToutesPosees = false;
+				}
+			}
+			if(unitesToutesPosees) {
+				fini = true;
+			}
 		}
 	}
 	
