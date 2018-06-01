@@ -1,4 +1,6 @@
-/*import java.util.List;
+package map;
+
+import java.util.List;
 import processing.core.PApplet;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -19,7 +21,7 @@ public class Map extends PApplet {
         
         String tilesStr = sketchPath("RiskMap.mbtiles");
         map = new UnfoldingMap(this,new MBTilesMapProvider(tilesStr));
-        List<Feature> countries = GeoJSONReader.loadData(this, "map/countries.geo.json");
+        List<Feature> countries = GeoJSONReader.loadData(this, "resources/map.geojson");
         countryMarkers = MapUtils.createSimpleMarkers(countries);
         map.addMarkers(countryMarkers);
         MapUtils.createDefaultEventDispatcher(this, map);
@@ -31,11 +33,11 @@ public class Map extends PApplet {
         int index = countryMarkers.indexOf(hitMarker);
         if (index != -1) {
         	countryMarkers.get(index).setColor(color(243, 23, 23));
-	        System.out.println(countryMarkers.get(index).getId());
+	        System.out.println(countryMarkers.get(index).getProperty("name"));
         }
     }
     
     public static void main(String[]args){
     	PApplet.main(new String[] { Map.class.getName() });
     }
-}*/
+}
