@@ -22,51 +22,58 @@ import processing.core.PImage;
 import processing.event.MouseEvent;
 import util.JeuUtil;
 
-public class InterfaceGraphiqueUtil extends PApplet {
+public class Map extends PApplet {
 	
 	private static final Color[] tabCouleur = {Color.BLUE, Color.RED, Color.GREEN, 
 											   Color.CYAN, Color.ORANGE, Color.PINK};
 	private static final long serialVersionUID = 1L;
-	UnfoldingMap map;
-	List<Marker> countryMarkers;
-	Location lisbonLocation = new Location(38.71f, -9.14f);
+	private static UnfoldingMap map;
+	private List<Marker> countryMarkers;
+	private Location lisbonLocation = new Location(38.71f, -9.14f);
 	
+	
+	
+	public static UnfoldingMap getMap() {
+		return map;
+	}
+	
+	public List<Marker> getCountryMarkers() {
+		return countryMarkers;
+	}
 	
 	public void setup() {
-		size(800, 600);
+		size(1080, 700);
         map = new UnfoldingMap(this);
-        List<Feature> countries = GeoJSONReader.loadData(this, "../risk-develop/resources/map.geojson");
+        List<Feature> countries = GeoJSONReader.loadData(this, "./resources/map.geojson");
         countryMarkers = MapUtils.createSimpleMarkers(countries);
         map.addMarkers(countryMarkers);
         MapUtils.createDefaultEventDispatcher(this, map);
         map.setBackgroundColor(6002415);
 	}
 	
-	
+	public void draw(){
+		map.draw();
+	}
 	public void placerUnite(Territoire territoire, Unite unite) {
-		
-		
 		String nomTerritoire = territoire.getNom();
-		
 		// tu recuperes l'id du joueur
 		int idJoueur = territoire.getOccupant().getId();
 		// tu chopes la couleur du pion en faisant l'association avec la position dans le tableau de couleur
 		Color couleurPion = tabCouleur[idJoueur];
-		
+		Location markerCentre = null;
 		for (Marker marker : countryMarkers) {
 			if (marker.getProperty("name") == nomTerritoire) {
-				Location markerCentre = GeoUtils.getCentroid(marker);
+				markerCentre = GeoUtils.getCentroid(marker);
 				break;
 			}
 		}
-		
-		
+		PImage imageUnite = null;
 		if(unite.getClass().equals(Canon.class)) {
-			PImage imageUnite = this.loadImage("../risk-develop/resources/canon.png");
+			imageUnite = this.loadImage("./resources/canon.png");
 		} else if(unite.getClass().equals(Cavalier.class)) {
-			PImage imageUnite = this.loadImage("../risk-develop/resources/chevalier.png");
+			//PImage imageUnite = this.loadImage("../risk-develop/resources/chevalier.png");
 		} else {
-			PImage imageUnite = this.loadImage("../risk-develop/resources/soldat.png");
+			//PImage imageUnite = this.loadImage("../risk-develop/resources/soldat.png");
 		}
 		
 		imageUnite.resize(30, 30);
@@ -113,29 +120,23 @@ public class InterfaceGraphiqueUtil extends PApplet {
     }
 	
 	public static Location getCentreTerritoire(Territoire territoire) {
+		return null;
 		
 	}
-
-}
         //Location markerCentroid = GeoUtils.getCentroid(countryMarkers.get(0));
         //System.out.println(markerCentroid);
 
-        if (index != -1) {
+       /* if (index != -1) {
         	countryMarkers.get(index).setColor(color(243, 23, 23));
         	Location markerCentroid = GeoUtils.getCentroid(countryMarkers.get(index));
         	System.out.println(markerCentroid);
 	        //System.out.println(countryMarkers.get(index).getProperty("name"));
         }
-    }
+    */
     
-    public void mouseReleased(MouseEvent event) {
-    	int mouseButton = event.getButton();
-    	if (mouseButton == PConstants.LEFT) {
-    		System.out.println("Bouton gauche cliqué");
-    	}
-    }
+
     
-    public static void main(String[]args){
-    	PApplet.main(new String[] { Map.class.getName() });
+    public static void main(String[] args) {
+    	PApplet.main(new String[] { "map.Map" });
     }
 }
