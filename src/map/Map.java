@@ -23,6 +23,7 @@ import processing.core.PConstants;
 import processing.core.PImage;
 import processing.event.MouseEvent;
 import util.JeuUtil;
+import util.MenuJeu;
 
 public class Map extends PApplet {
 	
@@ -54,7 +55,8 @@ public class Map extends PApplet {
         map.zoomToLevel(2);
         map.setZoomRange(2, 3);
         map.setPanningRestriction(new Location(0, 0) , 8000);
-       
+        MenuJeu menu = new MenuJeu();
+        frame.setMenuBar(menu.getBarre());
         
         
 
