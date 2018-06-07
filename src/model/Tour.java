@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import model.unite.Canon;
 import model.unite.Cavalier;
@@ -21,6 +22,8 @@ public class Tour {
 	
 	private List<Territoire> territoires;
 	
+	Scanner scanner = new Scanner(System.in); 
+	
 	public Tour(Joueur joueur,  List<Territoire> territoires) {
 		this.joueur=joueur;
 		this.territoires = territoires;
@@ -31,22 +34,37 @@ public class Tour {
 	 */
 	public void recevoirRenforts() {
 		
-		boolean finChoixUnite = false;
+		System.out.println("");
+		System.out.println("------------------RECEPTION DES RENFORTS------------------");
+		
+		
 		Unite uniteChoisie = null;
 		int nbUnitesDisponibles =  joueur.calculerNbRenfortDisponibleTour();
+		System.out.println("");
 		
 		// tant qu'il n'a pas tout pose
 		while(nbUnitesDisponibles > 0) {
+			System.out.println("");
+			System.out.println("Vous disposez de " + nbUnitesDisponibles + " unitÈs disponibles.");
+			System.out.println("");
+			System.out.println("choisissez un type d'unitÈ ‡ poser : ");
+			System.out.println("[0] soldat");
+			System.out.println("[1] cavalier");
+			System.out.println("[2] canon");
+			
+			boolean finChoixUnite = false;
 			
 			// le joueur choisit une unite a poser 
 			while(!finChoixUnite){
-				String choixUnite = "";
-				if(choixUnite == "cavalier"){
+				int choix = scanner.nextInt();
+				if(choix == 1){
 					uniteChoisie = new Cavalier();
-				} else if(choixUnite == "canon"){
+				} else if(choix == 2){
 					uniteChoisie = new Canon();
-				} else {
+				} else if(choix == 0){
 					uniteChoisie = new Soldat();
+				} else {
+					System.out.println("saisissez un nombre valide.");
 				}
 				if(uniteChoisie.getCout() > nbUnitesDisponibles){
 					System.out.println("Vous n'avez pas assez d'unites disponibles.");
@@ -55,23 +73,48 @@ public class Tour {
 					finChoixUnite = true;		
 				}
 			}
+			System.out.println("Vous avez choisi de poser un "+uniteChoisie.getClass().getSimpleName());
+			
 			
 			// le joueur pose son unite
 			boolean finPoseUnite = false;
-			String nomTerritoireChoisi = "";
 			
 			while(!finPoseUnite){
 				
-				if(nomTerritoireChoisi != ""){
-					Territoire territoireChoisi = JeuUtil.getTerritoireParNom(nomTerritoireChoisi, territoires);
+				System.out.println("");
+				for(int i=0; i< joueur.getTerritoires().size(); i++){
+					System.out.println("["+i+"]"+ " " + joueur.getTerritoires().get(i).getNom());
+					System.out.println("etat actuel : ");
+					int nbCavaliers=0;
+					int nbSoldats=0;
+					int nbCanons=0;
 					
-					if(territoireChoisi.getOccupant().getId() == joueur.getId()){
-						territoireChoisi.getUnites().add(uniteChoisie);
-						nbUnitesDisponibles = nbUnitesDisponibles - uniteChoisie.getCout();
-						finPoseUnite = true;
-					} else {
-						System.out.println("Vous ne pouvez pas poser d'unite sur ce territoire");
+					for(Unite u : joueur.getTerritoires().get(i).getUnites()){
+						if(u.getClass().equals(Cavalier.class)){
+							nbCavaliers++;
+						} else if (u.getClass().equals(Canon.class)){
+							nbCanons++;
+						} else {
+							nbSoldats++;
+						}
 					}
+					System.out.println(nbSoldats + " soldats, "+nbCavaliers+" cavaliers, "+nbCanons+" canons.");
+					System.out.println("");
+				}
+				
+				int choixTerritoire = scanner.nextInt();
+				String nomTerritoireChoisi = joueur.getTerritoires().get(choixTerritoire).getNom();
+				
+				Territoire territoireChoisi = JeuUtil.getTerritoireParNom(nomTerritoireChoisi, territoires);
+				
+				System.out.println("Vous avez choisi le territoire " + nomTerritoireChoisi);
+				
+				if(territoireChoisi.getOccupant().getId() == joueur.getId()){
+					territoireChoisi.getUnites().add(uniteChoisie);
+					nbUnitesDisponibles = nbUnitesDisponibles - uniteChoisie.getCout();
+					finPoseUnite = true;
+				} else {
+					System.out.println("Vous ne pouvez pas poser d'unite sur ce territoire");
 				}
 			} 
 		} 	
@@ -81,6 +124,8 @@ public class Tour {
 	 * Phase de d√©placement -> entraine soit un d√©placement "classique", soit une bataille
 	 */
 	public void deplacerUnites(){
+		
+		System.out.println("------------------DEPLACEMENT D'UNITES------------------");
 			
 		// l'utilisateur clique sur le territoire de depart
 		Territoire territoireDepart = JeuUtil.getTerritoireParNom("france", territoires);//TODO RECUP LES CLICS

@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 import model.Joueur;
 import model.Mission;
@@ -15,7 +16,8 @@ public class Application {
 
 	private List<Joueur> joueurs;
 	private List<Territoire> listTerritoires;
-
+	Scanner scanner = new Scanner(System.in); 
+	
 	public static void main(String[] args){
 		Application app = new Application();
 		app.jeu();
@@ -26,12 +28,19 @@ public class Application {
 
 		boolean jeuFini = false;
 		initJeu();
+		System.out.println("------------------------------------------------");
+		System.out.println("------------------------------------------------");
+		System.out.println("------------------DEBUT DU JEU------------------");
+		System.out.println("");
 
 		Joueur joueur = joueurs.get(0);
 
 		while(!jeuFini){
 			Tour tour = new Tour(joueur, listTerritoires);
-
+			System.out.println("");
+			System.out.println("");
+			System.out.println("------------------JOUEUR " + joueur.getId() + " JOUE------------------");
+			
 			tour.recevoirRenforts();
 			tour.deplacerUnites();
 			
@@ -54,11 +63,11 @@ public class Application {
 		Territoire t4 = new Territoire("allemagne", new ArrayList<>());
 		Territoire t5 = new Territoire("belgique", new ArrayList<>());
 		
-		Territoire t6 = new Territoire("hollande", new ArrayList<>());
-		Territoire t7 = new Territoire("turquie", new ArrayList<>());
-		Territoire t8 = new Territoire("chine", new ArrayList<>());
-		Territoire t9 = new Territoire("etats-unis", new ArrayList<>());
-		Territoire t10 = new Territoire("mexique", new ArrayList<>());
+		Territoire t6 = new Territoire("pays-bas", new ArrayList<>());
+		Territoire t7 = new Territoire("grèce", new ArrayList<>());
+		Territoire t8 = new Territoire("portugal", new ArrayList<>());
+		Territoire t9 = new Territoire("royaume-uni", new ArrayList<>());
+		Territoire t10 = new Territoire("suisse", new ArrayList<>());
 
 		listTerritoires.add(t1);
 		listTerritoires.add(t2);
@@ -70,6 +79,15 @@ public class Application {
 		listTerritoires.add(t8);
 		listTerritoires.add(t9);
 		listTerritoires.add(t10);
+		
+		System.out.println("------------------LISTE DES TERRITOIRES------------------");
+		System.out.println("");
+		for(Territoire t : listTerritoires){
+			System.out.println("- " + t.getNom());
+		}
+		System.out.println("");
+		System.out.println("");
+
 		
 		// INIT LISTE JOUEURS
 		Joueur joueur0 = new Joueur(0, new ArrayList<Territoire>(), new ArrayList<Region>());
@@ -83,10 +101,14 @@ public class Application {
 		// init missions
 		List<Mission> listMissions = Mission.initMissions(joueurs.size());
 		
+		System.out.println("------------------MISSIONS------------------");
+		System.out.println("");
+		
 		for(Joueur joueur : joueurs) {
 			Random r = new Random();
 			int missionAlea = 0 + r.nextInt(listMissions.size());
 			joueur.setMission(listMissions.get(missionAlea));
+			System.out.println("joueur " + joueur.getId() + "-> "+ joueur.getMission().getIntitule());
 		}
 	
 		
@@ -95,7 +117,7 @@ public class Application {
 		if(joueurs.size() == 2){
 			nbUnites = 40;
 		} else if(joueurs.size() == 3){
-			nbUnites = 35;
+			nbUnites = 5;
 		} else if(joueurs.size() == 4){
 			nbUnites = 30;
 		} else if(joueurs.size() == 5){
@@ -106,14 +128,27 @@ public class Application {
 		for(Joueur joueur : joueurs) {
 			joueur.setNbUnitesAPoserInitJeu(nbUnites);
 		}
+		System.out.println("");
+		System.out.println("");
 		
 		// ----------------------------------------------------------------------------------------
 
 		// on repartit tous les territoires entre les joueurs
 		repartirTerritoires();
+		System.out.println("------------------REPARTITION DES TERRITOIRES------------------");
+		System.out.println("");
+		
+		for(Joueur j : joueurs){
+			System.out.println("");
+			System.out.println("JOUEUR " + j.getId() + " possède :");
+			for(Territoire t : j.getTerritoires()){
+				System.out.println("- " + t.getNom());
+			}
+		}
 		
 		// POSER LE NB D'UNITE
 		repartirUnitesParTerritoire(nbUnites);
+		
 		
 	}
 
@@ -158,6 +193,9 @@ public class Application {
 	 * repartition des unites par territoire assignÃ© a un joueur lors de l'initialisation du jeu
 	 */
 	private void repartirUnitesParTerritoire(int nbUnites) {
+		System.out.println("");
+		System.out.println("------------------REPARTITION DES UNITES------------------");
+		System.out.println("");
 		
 		// par dÃ©fault, on pose un soldat sur chaque territoire du joueur.
 		// il renforcera ensuite les territoires qu'il veut.
@@ -176,13 +214,34 @@ public class Application {
 		
 		while(!fini) {
 			if(joueur.getNbUnitesAPoserInitJeu() > 0) {
+				System.out.println("JOUEUR "+joueur.getId() + " - choisissez un territoire pour poser une unité : ");
+				System.out.println("");
+				for(int i=0; i< joueur.getTerritoires().size(); i++){
+					System.out.println("["+i+"]"+ " " + joueur.getTerritoires().get(i).getNom());
+				}
+				
+				System.out.println(" ");
+				int choix = scanner.nextInt();
+				
+				
 				// clic sur territoire
-				String nomTerritoireSelect = "";
+				String nomTerritoireSelect = joueur.getTerritoires().get(choix).getNom();
+				
+				System.out.println("");
+				System.out.println("vous avez choisi le territoire "+nomTerritoireSelect);
+				System.out.println("");
+				
+				
 				Territoire territoireSelect = JeuUtil.getTerritoireParNom(nomTerritoireSelect, listTerritoires);
 				// on vÃ©rifie que le territoire sÃ©lectionnÃ© appartient bien au joueur
 				if(joueur.getTerritoires().contains(territoireSelect)) {
 					territoireSelect.getUnites().add(new Soldat());
 					joueur.setNbUnitesAPoserInitJeu(joueur.getNbUnitesAPoserInitJeu()-1);
+					
+					System.out.println("Un soldat a été ajouté au territoire.");
+					System.out.println("");
+					System.out.println("");
+					
 				} else {
 					System.out.println("Vous ne pouvez pas poser d'unitÃ© sur ce territoire.");
 				}
@@ -199,6 +258,15 @@ public class Application {
 			if(unitesToutesPosees) {
 				fini = true;
 			}
+		}
+		
+		System.out.println("------------------ETAT DES TERRITOIRES PAR JOUEUR------------------");
+		for(Joueur j : joueurs){
+			System.out.println("JOUEUR " +j.getId() + ": ");
+			for(Territoire t : j.getTerritoires()){
+				System.out.println(t.getNom() + " : " + t.getUnites().size() + " soldats");
+			}
+			System.out.println("");	
 		}
 	}
 	
