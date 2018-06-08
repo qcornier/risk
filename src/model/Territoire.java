@@ -13,11 +13,22 @@ public class Territoire {
 	private Joueur occupant; // idJOueur
 
 	private List<Unite> unites;
+	
+	private List<Territoire> adjascent;
+
+	public List<Territoire> getAdjascent() {
+		return adjascent;
+	}
+
+	public void setAdjascent(List<Territoire> adjascent) {
+		this.adjascent = adjascent;
+	}
 
 	public Territoire(String nom, List<Unite> unites) {
 		this.nom = nom;
 		this.unites = unites;
 		this.occupant = null; // on initialise a -1, les territoires sont r�partis entre les joueurs lors de initJeu
+		this.adjascent = new ArrayList<Territoire>();
 	}
 
 	public Joueur getOccupant() {

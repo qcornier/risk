@@ -9,7 +9,10 @@ import model.Mission;
 import model.Region;
 import model.Territoire;
 import model.Tour;
+import model.unite.Canon;
+import model.unite.Cavalier;
 import model.unite.Soldat;
+import model.unite.Unite;
 import util.JeuUtil;
 
 public class Application {
@@ -44,6 +47,30 @@ public class Application {
 			tour.recevoirRenforts();
 			tour.deplacerUnites();
 			
+			for(Joueur j : joueurs) {
+				System.out.println("");
+				System.out.println("------------------JOUEUR " + j.getId() + "------------------");
+				for(int i=0; i< j.getTerritoires().size(); i++){
+					System.out.println(j.getTerritoires().get(i).getNom());
+					System.out.println("etat actuel : ");
+					int nbCavaliers=0;
+					int nbSoldats=0;
+					int nbCanons=0;
+					
+					for(Unite u : j.getTerritoires().get(i).getUnites()){
+						if(u.getClass().equals(Cavalier.class)){
+							nbCavaliers++;
+						} else if (u.getClass().equals(Canon.class)){
+							nbCanons++;
+						} else {
+							nbSoldats++;
+						}
+					}
+					System.out.println(nbSoldats + " soldats, "+nbCavaliers+" cavaliers, "+nbCanons+" canons.");
+					System.out.println("");
+				}
+			}
+				
 			jeuFini = Mission.verifierSiMissionAccomplie(joueur, listTerritoires.size());
 
 			joueur = getJoueurSuivant(joueur.getId());
@@ -57,28 +84,46 @@ public class Application {
 		joueurs = new ArrayList<Joueur>(); 
 		listTerritoires = new ArrayList<Territoire>(); 
 		
-		Territoire t1 = new Territoire("france", new ArrayList<>());
-		Territoire t2 = new Territoire("espagne", new ArrayList<>());
-		Territoire t3 = new Territoire("italie", new ArrayList<>());
-		Territoire t4 = new Territoire("allemagne", new ArrayList<>());
-		Territoire t5 = new Territoire("belgique", new ArrayList<>());
+		Territoire france = new Territoire("france", new ArrayList<>());
+		Territoire espagne = new Territoire("espagne", new ArrayList<>());
+		Territoire italie = new Territoire("italie", new ArrayList<>());
+		Territoire allemagne = new Territoire("allemagne", new ArrayList<>());
+		Territoire belgique = new Territoire("belgique", new ArrayList<>());
 		
-		Territoire t6 = new Territoire("pays-bas", new ArrayList<>());
-		Territoire t7 = new Territoire("grèce", new ArrayList<>());
-		Territoire t8 = new Territoire("portugal", new ArrayList<>());
-		Territoire t9 = new Territoire("royaume-uni", new ArrayList<>());
-		Territoire t10 = new Territoire("suisse", new ArrayList<>());
+		Territoire paysBas = new Territoire("pays-bas", new ArrayList<>());
+		Territoire portugal = new Territoire("portugal", new ArrayList<>());
+		Territoire royaumeUni = new Territoire("royaume-uni", new ArrayList<>());
+		
+		france.getAdjascent().add(espagne);
+		france.getAdjascent().add(italie);
+		france.getAdjascent().add(allemagne);
+		france.getAdjascent().add(belgique);
+		france.getAdjascent().add(royaumeUni);
+		
+		espagne.getAdjascent().add(portugal);
+		espagne.getAdjascent().add(france);
+		
+		italie.getAdjascent().add(france);
+		
+		allemagne.getAdjascent().add(france);
+		
+		belgique.getAdjascent().add(france);
+		belgique.getAdjascent().add(paysBas);
+		
+		paysBas.getAdjascent().add(belgique);
+		
+		royaumeUni.getAdjascent().add(france);
 
-		listTerritoires.add(t1);
-		listTerritoires.add(t2);
-		listTerritoires.add(t3);
-		listTerritoires.add(t4);
-		listTerritoires.add(t5);
-		listTerritoires.add(t6);
-		listTerritoires.add(t7);
-		listTerritoires.add(t8);
-		listTerritoires.add(t9);
-		listTerritoires.add(t10);
+		listTerritoires.add(france);
+		listTerritoires.add(espagne);
+		listTerritoires.add(italie);
+		listTerritoires.add(allemagne);
+		listTerritoires.add(belgique);
+		listTerritoires.add(paysBas);
+		listTerritoires.add(portugal);
+		listTerritoires.add(royaumeUni);
+		
+		
 		
 		System.out.println("------------------LISTE DES TERRITOIRES------------------");
 		System.out.println("");
